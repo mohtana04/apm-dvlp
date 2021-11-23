@@ -200,10 +200,15 @@ class Kontrol_pertama extends Rest_bpjs
                 $this->cekhistori($nokartu); // belum di tes
             }
         } else {
+
             $this->cekrujukan($nokartu); // done test bisa simpan v1 // v2 belum
             $this->cekhistori($nokartu); // done tes bisa simpan v1 // v2 blum
+
         }
 
+        $asal = '1';
+        $norujukan = '160102021021P000592';
+        $this->cariRujukanbyno($norujukan,$asal);
         echo $politujuan; // example
         echo '<br>';
 
