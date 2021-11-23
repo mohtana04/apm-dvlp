@@ -7,7 +7,7 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once 'vendor/autoload.php';
 class Rest_bpjs extends CI_Controller
 {
     function __construct()
@@ -17,6 +17,31 @@ class Rest_bpjs extends CI_Controller
         $this->load->helper('file');
         $this->load->helper('form');
         $this->load->model('m_apmbpjs');
+    }
+
+    function stringDecrypt($string,$dataid,$secretKey,$tStamp){
+
+
+        $encrypt_method = 'AES-256-CBC';
+        $consid = $dataid;
+        $conspwd = $secretKey;
+
+        //date_default_timezone_set('UTC');
+        //$timestamp = strval(time()-strtotime('1970-01-01 00:00:00'));
+        $timestamp = $tStamp;
+
+        $signature = $consid . $conspwd . $timestamp;
+
+        // hash
+        $key = hex2bin(hash('sha256', $signature));
+
+        // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hex2bin(hash('sha256', $signature)), 0, 16);
+
+        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, OPENSSL_RAW_DATA, $iv);
+
+        $hasil = \LZCompressor\LZString::decompressFromEncodedURIComponent($output);
+        return $hasil;
     }
 
     function cekhistori($nokartu){
