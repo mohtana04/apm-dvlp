@@ -204,8 +204,10 @@ class Kontrol_pertama extends Rest_bpjs
             $this->cekhistori($nokartu); // done tes bisa simpan v1 // v2 blum
         }
 
-        echo $politujuan;
+        echo $politujuan; // example
         echo '<br>';
+
+
 
     }
 
